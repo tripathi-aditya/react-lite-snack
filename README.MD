@@ -8,6 +8,7 @@
 - Touch friendly
 - Rich Callbacks
 - Regression bar
+- Hot by default
 
 - Programmatical control
 - Rich Callbacks
