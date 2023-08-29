@@ -15,3 +15,4 @@
 - Mimified CSS
 - Error Boundaries
 - Documentation, Website, Contributor's guide, Change-logs
+- Mono-repo for site and package
