@@ -1,21 +1,38 @@
 {
   "name": "react-lite-snack",
   "version": "0.0.1",
-  "description": "A lighweight snack-bar / toast notification library",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "description": "A lighweight snack-bar / toast notification library for React projects.",
+  "author": "Aditya Tripathi",
+  "license": "MIT",
+  "homepage": "https://github.com/tripathi-aditya/react-lite-snack#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tripathi-aditya/react-lite-snack.git"
   },
-  "author": "Aditya Tripathi",
-  "license": "MIT",
+  "keywords": [
+    "snackbar",
+    "notifications",
+    "toast",
+    "react",
+    "feedback"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsup",
+    "postbuild": "tsc"
+  },
   "bugs": {
     "url": "https://github.com/tripathi-aditya/react-lite-snack/issues"
   },
-  "homepage": "https://github.com/tripathi-aditya/react-lite-snack#readme",
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "splitting": false,
+    "sourcemap": true,
+    "clean": true
+  },
   "devDependencies": {
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
