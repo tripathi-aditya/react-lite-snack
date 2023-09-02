@@ -11,10 +11,13 @@
   },
   "keywords": [
     "snackbar",
-    "notifications",
+    "notification",
     "toast",
     "react",
-    "feedback"
+    "feedback",
+    "react-lite-snackbar",
+    "push",
+    "alert"
   ],
   "main": "index.js",
   "scripts": {
