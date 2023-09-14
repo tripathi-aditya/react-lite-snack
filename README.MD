@@ -1,7 +1,6 @@
 # Feature List and Requirements
 
 - RTL support
-- SSR support
 - Promise support
 - WAI compliant (accesibility)
 - Pause on focus
