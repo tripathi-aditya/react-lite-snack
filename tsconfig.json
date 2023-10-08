@@ -11,6 +11,7 @@
     "strict": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "noImplicitThis": false,
     "noUnusedParameters": true,
     "jsx": "react-jsx",
     "esModuleInterop": true,
