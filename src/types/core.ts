@@ -11,24 +11,55 @@ interface ToasterOptions {
   onLoadCallback?: Function;
   onUnloadCallback?: Function;
 }
-// creates a new toast with provided configs (generates toast component props)
-type ToastBuilderArgument = ToasterOptions; // extend this as you like, convert to interface while extending
 
 type ToastProps = {
+  // rename to
   // onPauseCallback: () => {};
   // onResumeCallback: () => {};
 } & ToasterOptions;
 
-type ToastContainer = {
+type ToastContainerProps = {
   position: ToastContainerPositions;
   loadDirection: ToastLoadingDirection;
   ToastQueue: [];
 };
 
+type ToastEntity = any; //represents complete toast props, user and system defined together
+type ToastContainerEntity = any; //represents complete toast container props, user and system defined together
+
+// type Toast = React.ReactElement<ToastProps>;
+// type ToastContainer = React.ReactElement<ToastContainerProps>;
+
+enum ToastOperations {
+  LOAD,
+  UNLOAD,
+}
+
+enum ToastContainerOperations {
+  LOAD,
+  UNLOAD,
+  EMPTY,
+}
+
+type ReducerActions = {
+  // pass the operation on which entity we want perform
+  type: ToastOperations | ToastContainerOperations;
+  data: ToastEntity | ToastContainerEntity;
+};
+
+interface StoreState {
+  toasts: ToastEntity[];
+  toastContainers: ToastContainerEntity[];
+}
+
 export {
-  ToastBuilderArgument,
-  ToastContainer,
+  ReducerActions,
+  StoreState,
+  ToastContainerEntity,
+  ToastContainerProps,
+  ToastEntity,
   ToasterOptions,
+  ToastOperations,
   ToastProps,
   ToastVariants,
 };
