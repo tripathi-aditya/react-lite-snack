@@ -17,11 +17,12 @@ function CreateToastProps(options: ToastProps) {
 
 function ToastBuilder() {
   // sets toast options and validate their values
-  (this.toastOptions = {}),
-    (this.setVariant = (variant: ToastVariants) => {
-      this.toastOptions.variant = variant;
-      return this;
-    });
+  this.toastOptions = {};
+
+  this.setVariant = (variant: ToastVariants) => {
+    this.toastOptions.variant = variant;
+    return this;
+  };
   this.setMessage = (message: string) => {
     this.toastOptions.message = String(message).toLowerCase();
     return this;
