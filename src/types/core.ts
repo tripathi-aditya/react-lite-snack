@@ -1,47 +1,41 @@
-type ToastContainerPositions = "top" | "bottom" | "left" | "right";
+import { VARIANTS } from "./constants";
 
-type ToastLoadingDirection = "top-down" | "bottom-up";
+// possible that all entities are namesapces?
+type StoreEntity = any;
+type ToastContainerEntity = any;
+type ToastEntity = ToastProps & ToastMetaData;
 
-type ToastVariants = "success" | "failure" | "warning";
+type ToastProps = ToastRequiredProps & ToastOptionalProps;
 
-interface ToasterOptions {
-  // might build a new toast or schedule loading an existing one
-  variant: ToastVariants;
-  message: string;
-  onLoadCallback?: Function;
-  onUnloadCallback?: Function;
+interface ToastOptionalProps {
+  onLoadCB?: Function;
 }
 
-type ToastProps = {
-  // rename to
-  // onPauseCallback: () => {};
-  // onResumeCallback: () => {};
-} & ToasterOptions;
+interface ToastMetaData {
+  id: string;
+  displayTime: number;
+}
 
-type ToastContainerProps = {
-  position: ToastContainerPositions;
-  loadDirection: ToastLoadingDirection;
-  ToastQueue: [];
-};
-
-type ToastEntity = any; //represents complete toast props, user and system defined together
-type ToastContainerEntity = any; //represents complete toast container props, user and system defined together
-
-// type Toast = React.ReactElement<ToastProps>;
-// type ToastContainer = React.ReactElement<ToastContainerProps>;
+interface ToastRequiredProps {
+  variant: VARIANTS;
+  message: string;
+}
 
 enum ToastOperations {
-  LOAD,
-  UNLOAD,
+  UPSERT = "UPSERT", // addition or removal
+  DELETE = "DELETE",
+  MOUNT = "MOUNT",
+  UNMOUNT = "UNMOUNT",
 }
 
 enum ToastContainerOperations {
-  LOAD,
-  UNLOAD,
-  EMPTY,
+  LOAD = "LOAD",
+  UNLOAD = "UNLOAD",
+  EMPTY = "EMPTY",
+  UPDATE = "UPDATE",
 }
 
-type ReducerActions = {
+type StoreOperations = {
   // pass the operation on which entity we want perform
   type: ToastOperations | ToastContainerOperations;
   data: ToastEntity | ToastContainerEntity;
@@ -53,13 +47,10 @@ interface StoreState {
 }
 
 export {
-  ReducerActions,
   StoreState,
+  StoreOperations,
   ToastContainerEntity,
-  ToastContainerProps,
   ToastEntity,
-  ToasterOptions,
   ToastOperations,
   ToastProps,
-  ToastVariants,
 };
