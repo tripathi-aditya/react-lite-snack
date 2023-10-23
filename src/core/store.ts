@@ -1,4 +1,6 @@
+import { useState } from "react";
 import {
+  // StoreEntity,
   StoreOperations,
   ToastContainerEntity,
   ToastEntity,
@@ -8,8 +10,8 @@ import {
 const StoreEntity = {
   state: {
     toasts: [] as ToastEntity[],
-    toastContainers: [] as ToastContainerEntity[],
   },
+  listeners: [], // so that multiple entities can subscribe to store
 
   update: function (action: StoreOperations) {
     switch (action.type) {
@@ -22,19 +24,25 @@ const StoreEntity = {
         );
         break;
       default:
-        return this.state;
+        break;
     }
+    this.listeners.forEach((listener) => {
+      listener(this.state);
+    });
   },
 };
 
 export function upsertToast(toast: ToastEntity) {
   const store = Object.create(StoreEntity);
   store.update({ data: toast, type: "UPSERT" });
-  return store;
 }
 
 export function deleteToast(toast: ToastEntity) {
   const store = Object.create(StoreEntity);
   store.update({ data: toast, type: "DELETE" });
-  return store;
+}
+
+export function useStore(listener) {
+  const store = Object.create(StoreEntity);
+  store.listeners.push(listener);
 }
