@@ -1,8 +1,6 @@
-import { useState } from "react";
 import {
   // StoreEntity,
   StoreOperations,
-  ToastContainerEntity,
   ToastEntity,
   ToastOperations,
 } from "../types/core";
@@ -26,6 +24,7 @@ const StoreEntity = {
       default:
         break;
     }
+    // let subscribers know state on every update
     this.listeners.forEach((listener) => {
       listener(this.state);
     });
@@ -35,6 +34,7 @@ const StoreEntity = {
 export function upsertToast(toast: ToastEntity) {
   const store = Object.create(StoreEntity);
   store.update({ data: toast, type: "UPSERT" });
+  setTimeout(() => deleteToast(toast), toast.displayTime);
 }
 
 export function deleteToast(toast: ToastEntity) {
@@ -43,6 +43,7 @@ export function deleteToast(toast: ToastEntity) {
 }
 
 export function useStore(listener) {
+  // could return a ref to be used as as toast container
   const store = Object.create(StoreEntity);
   store.listeners.push(listener);
 }

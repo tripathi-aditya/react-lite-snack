@@ -1,8 +1,15 @@
-import { VARIANTS } from "./constants";
+import { CONTAINER_POSITIONS, VARIANTS } from "./constants";
 
 // possible that all entities are namesapces?
-type StoreEntity = any;
-type ToastContainerEntity = any;
+type StoreEntity = {
+  state: Record<string, ToastEntity[] | ToastContainerEntity[]>;
+  update: (actions: StoreOperations) => void; //should this return updated store?
+};
+type ToastContainerEntity = {
+  id: number;
+  maxToast: number;
+  direction: CONTAINER_POSITIONS;
+};
 type ToastEntity = ToastProps & ToastMetaData;
 
 type ToastProps = ToastRequiredProps & ToastOptionalProps;
@@ -14,6 +21,7 @@ interface ToastOptionalProps {
 interface ToastMetaData {
   id: string;
   displayTime: number;
+  direction: CONTAINER_POSITIONS;
 }
 
 interface ToastRequiredProps {
@@ -22,7 +30,7 @@ interface ToastRequiredProps {
 }
 
 enum ToastOperations {
-  UPSERT = "UPSERT", // addition or removal
+  UPSERT = "UPSERT",
   DELETE = "DELETE",
   MOUNT = "MOUNT",
   UNMOUNT = "UNMOUNT",
@@ -47,6 +55,7 @@ interface StoreState {
 }
 
 export {
+  StoreEntity,
   StoreState,
   StoreOperations,
   ToastContainerEntity,
