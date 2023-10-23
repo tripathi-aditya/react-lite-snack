@@ -1,8 +1,9 @@
-import { ToastProps } from "./core";
+import { VARIANTS } from "./constants";
 
-type Toast = {
-  timeToUnload: "";
-  isPaused: boolean;
-} & ToastProps;
+type ToastProps = {
+  variant: VARIANTS;
+  message: string;
+  onLoadCB?: Function;
+};
 
-export { Toast };
+export { ToastProps };
