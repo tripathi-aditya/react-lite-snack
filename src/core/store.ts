@@ -1,22 +1,22 @@
 import {
-  // StoreEntity,
-  StoreOperations,
+  StoreEntity,
+  StoreListener,
   ToastEntity,
-  ToastOperations,
-} from "../types/core";
+  TOAST_OPERATIONS,
+} from "../types";
 
-const StoreEntity = {
+const Store: StoreEntity = {
   state: {
-    toasts: [] as ToastEntity[],
+    toasts: [],
   },
   listeners: [], // so that multiple entities can subscribe to store
 
-  update: function (action: StoreOperations) {
+  update: function (action) {
     switch (action.type) {
-      case ToastOperations.UPSERT:
+      case TOAST_OPERATIONS.UPSERT:
         this.state.toasts.push(action.data as ToastEntity);
         break;
-      case ToastOperations.DELETE:
+      case TOAST_OPERATIONS.DELETE:
         this.state.toasts = this.state.toasts.filter(
           (toast: ToastEntity) => action.data.id !== toast.id
         );
@@ -25,25 +25,27 @@ const StoreEntity = {
         break;
     }
     // let subscribers know state on every update
-    this.listeners.forEach((listener) => {
+    this.listeners.forEach((listener: StoreListener) => {
       listener(this.state);
     });
   },
 };
 
-export function upsertToast(toast: ToastEntity) {
-  const store = Object.create(StoreEntity);
+function upsertToast(toast: ToastEntity) {
+  const store = Object.create(Store);
   store.update({ data: toast, type: "UPSERT" });
   setTimeout(() => deleteToast(toast), toast.displayTime);
 }
 
-export function deleteToast(toast: ToastEntity) {
-  const store = Object.create(StoreEntity);
+function deleteToast(toast: ToastEntity) {
+  const store = Object.create(Store);
   store.update({ data: toast, type: "DELETE" });
 }
 
-export function useStore(listener) {
+function useStore(listener: StoreListener) {
   // could return a ref to be used as as toast container
-  const store = Object.create(StoreEntity);
+  const store = Object.create(Store);
   store.listeners.push(listener);
 }
+
+export { deleteToast, upsertToast, useStore };
