@@ -37,7 +37,7 @@ const ToastFactory: ToastEntityFactory = {
     this.variant = fractionalEntity.variant as ToastEntity["variant"];
     return this;
   },
-  export: function (fractionalEntity) {
+  complete: function (fractionalEntity) {
     return { ...this, ...fractionalEntity };
   },
 };
@@ -50,7 +50,7 @@ export function buildToastEntityForProps(
     .setMessage(fractionalToast)
     .setVariant(fractionalToast)
     .setOnLoad(fractionalToast)
-    .export(fractionalToast);
+    .complete(fractionalToast);
 }
 
 export function buildToastEntityForMeta(
@@ -61,7 +61,7 @@ export function buildToastEntityForMeta(
   return toastMetaData
     .setId()
     .setDisplayTime(fractionalToast)
-    .export(fractionalToast);
+    .complete(fractionalToast);
 }
 
 // TODO: A function to build toast for both Meta and Props
