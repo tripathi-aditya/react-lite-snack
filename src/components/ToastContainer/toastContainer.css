@@ -1,0 +1,26 @@
+.container {
+  border: 2px solid red;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  max-width: 30rem;
+}
+.container__right {
+  top: 0;
+  right: 0;
+}
+
+.container__left {
+  top: 0;
+  left: 0;
+}
+
+.container__top {
+  top: 0;
+  margin: auto;
+}
+
+.container__bottom {
+  bottom: 0;
+  margin: auto;
+}
