@@ -1,9 +1,10 @@
-import { VARIANTS } from "./constants";
+import { POSITIONS, VARIANTS } from "./constants";
 
 type ToastProps = {
-  variant: VARIANTS;
   message: string;
   onLoadCB?: Function;
+  position: POSITIONS;
+  variant: VARIANTS;
 };
 
 export { ToastProps };

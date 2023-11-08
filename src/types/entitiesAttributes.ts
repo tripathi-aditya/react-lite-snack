@@ -1,9 +1,9 @@
-import { CONTAINER_POSITIONS, TOAST_OPERATIONS, VARIANTS } from "./constants";
+import { TOAST_OPERATIONS, VARIANTS } from "./constants";
 import { ToastEntity } from "./entities";
 
 type StoreState = Record<string, ToastEntity[]>;
 
-type StoreListener = (state: StoreState) => unknown;
+type StoreListener = (state: StoreState, storeAction: StoreActions) => unknown;
 
 type StoreActions = {
   type: TOAST_OPERATIONS;
@@ -13,7 +13,6 @@ type StoreActions = {
 interface ToastMetaData {
   id: string;
   displayTime: number;
-  direction: CONTAINER_POSITIONS;
 }
 
 type ToastEntityFactory = Record<
