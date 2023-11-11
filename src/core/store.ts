@@ -26,7 +26,7 @@ const Store: StoreEntity = {
     }
     // let subscribers know state on every update
     this.listeners.forEach((listener: StoreListener) => {
-      listener(this.state);
+      listener(this.state, action);
     });
   },
 };
@@ -34,18 +34,26 @@ const Store: StoreEntity = {
 function upsertToast(toast: ToastEntity) {
   const store = Object.create(Store);
   store.update({ data: toast, type: "UPSERT" });
-  setTimeout(() => deleteToast(toast), toast.displayTime);
+  deleteToast(toast);
 }
 
 function deleteToast(toast: ToastEntity) {
   const store = Object.create(Store);
-  store.update({ data: toast, type: "DELETE" });
+  setTimeout(
+    () => store.update({ data: toast, type: "DELETE" }),
+    toast.displayTime
+  );
 }
 
-function useStore(listener: StoreListener) {
-  // could return a ref to be used as as toast container
+function useStoreEffect(listener: StoreListener, unSubscribe?: boolean) {
   const store = Object.create(Store);
+
+  if (unSubscribe)
+    store.listeners = store.listeners.filter(
+      (storeListener: StoreListener) => storeListener !== listener
+    );
+  // could return a ref to be used as as toast container
   store.listeners.push(listener);
 }
 
-export { deleteToast, upsertToast, useStore };
+export { deleteToast, upsertToast, useStoreEffect };
