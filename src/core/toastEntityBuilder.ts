@@ -3,7 +3,10 @@
 // 2. then we append container related details to it
 
 import { ToastEntity, ToastEntityFactory } from "../types";
-import { DEFAULT_TOAST_DISPLAY_TIME } from "./constants";
+import {
+  DEFAULT_TOAST_DISPLAY_TIME,
+  DEFAULT_TOAST_POSITION,
+} from "./constants";
 
 const ToastFactory: ToastEntityFactory = {
   setDisplayTime: function (fractionalEntity) {
@@ -33,6 +36,10 @@ const ToastFactory: ToastEntityFactory = {
     this.onLoadCallback = options.onLoadCB as ToastEntity["onLoadCB"];
     return this;
   },
+  setPosition: function (fractionalEntity) {
+    this.position = fractionalEntity?.position ?? DEFAULT_TOAST_POSITION;
+    return this;
+  },
   setVariant: function (fractionalEntity) {
     this.variant = fractionalEntity.variant as ToastEntity["variant"];
     return this;
@@ -46,11 +53,14 @@ export function buildToastEntityForProps(
   fractionalToast: Partial<ToastEntity>
 ): Partial<ToastEntity> {
   let toastProps = Object.create(ToastFactory);
-  return toastProps
-    .setMessage(fractionalToast)
-    .setVariant(fractionalToast)
-    .setOnLoad(fractionalToast)
-    .complete(fractionalToast);
+  return (
+    toastProps
+      // better to pass exact values
+      .setMessage(fractionalToast)
+      .setOnLoad(fractionalToast)
+      .setVariant(fractionalToast)
+      .complete(fractionalToast)
+  );
 }
 
 export function buildToastEntityForMeta(
@@ -61,6 +71,7 @@ export function buildToastEntityForMeta(
   return toastMetaData
     .setId()
     .setDisplayTime(fractionalToast)
+    .setPosition()
     .complete(fractionalToast);
 }
 
