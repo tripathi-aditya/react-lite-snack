@@ -4,7 +4,7 @@ type ToastProps = {
   message: string;
   onLoadCB?: Function;
   position: POSITIONS;
-  variant: VARIANTS;
+  variant?: VARIANTS;
 };
 
 export { ToastProps };
