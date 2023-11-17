@@ -41,7 +41,8 @@ const ToastFactory: ToastEntityFactory = {
     return this;
   },
   setVariant: function (fractionalEntity) {
-    this.variant = fractionalEntity.variant as ToastEntity["variant"];
+    const variant = fractionalEntity.variant ?? "info";
+    this.variant = variant as ToastEntity["variant"];
     return this;
   },
   complete: function (fractionalEntity) {
