@@ -1,0 +1,41 @@
+.toast {
+  display: flex;
+  border: none;
+  border-radius: 0.25rem;
+  min-width: 20rem;
+  padding: 1rem;
+  margin: 0.75rem;
+}
+
+.toast__in_container_right {
+}
+
+.toast__in_container_top {
+}
+
+.toast__in_container_botton {
+}
+
+.toast__in_container_left {
+}
+
+.toast_variant {
+}
+
+.toast_variant__success {
+  background-color: #07bd71;
+  color: #ffffff;
+}
+
+.toast_variant__error {
+  background-color: #fa4d56;
+}
+
+.toast_variant__warning {
+  background-color: #faff6c;
+}
+
+.toast_variant__info {
+  background-color: #1192e8;
+  color: #ffffff;
+}
