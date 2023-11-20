@@ -1,9 +1,9 @@
 import "./toastContainer.css";
-import { Toast } from "..";
 import { useToastContainer } from "../../hooks/useToastContainer";
 import { POSITIONS } from "../..";
+import Toast from "../Toast/Toast";
 
-export const ToastContainers = () => {
+const ToastContainers = () => {
   const { toastContainers } = useToastContainer();
 
   const ToastContainerTop = () => {
@@ -55,3 +55,5 @@ export const ToastContainers = () => {
     </>
   );
 };
+
+export default ToastContainers;
