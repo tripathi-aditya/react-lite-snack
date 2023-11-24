@@ -10,6 +10,11 @@ enum TOAST_OPERATIONS {
   DELETE = "DELETE",
 }
 
-type VARIANTS = "error" | "info" | "success" | "warning";
+enum VARIANTS {
+  ERROR = "error",
+  INFO = "info",
+  SUCCESS = "success",
+  WARNING = "warning",
+}
 
 export { POSITIONS, LOADING_DIRECTIONS, TOAST_OPERATIONS, VARIANTS };

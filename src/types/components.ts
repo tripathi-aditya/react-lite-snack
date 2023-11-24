@@ -1,9 +1,8 @@
-import { POSITIONS, VARIANTS } from "./constants";
+import { VARIANTS } from "./constants";
 
 type ToastProps = {
   message: string;
-  onLoadCB?: Function;
-  position: POSITIONS;
+  onCloseClick?: (e: React.MouseEvent<HTMLSpanElement>) => void;
   variant?: VARIANTS;
 };
 
