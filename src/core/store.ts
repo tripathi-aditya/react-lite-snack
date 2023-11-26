@@ -31,23 +31,26 @@ const Store: StoreEntity = {
   },
 };
 
+const store = Object.create(Store);
+
 function upsertToast(toast: ToastEntity) {
-  const store = Object.create(Store);
-  store.update({ data: toast, type: "UPSERT" });
-  deleteToast(toast);
+  const toastEntityWithClose = {
+    ...toast,
+    deleteTimeout: setTimeout(
+      () => store.update({ data: toast, type: "DELETE" }),
+      toast.displayTime
+    ),
+    onCloseClick: () => deleteToast(toast),
+  } as ToastEntity;
+  store.update({ data: toastEntityWithClose, type: "UPSERT" });
 }
 
 function deleteToast(toast: ToastEntity) {
-  const store = Object.create(Store);
-  setTimeout(
-    () => store.update({ data: toast, type: "DELETE" }),
-    toast.displayTime
-  );
+  clearTimeout(toast.deleteTimeout);
+  store.update({ data: toast, type: "DELETE" });
 }
 
-function useStoreEffect(listener: StoreListener, unSubscribe?: boolean) {
-  const store = Object.create(Store);
-
+function useStore(listener: StoreListener, unSubscribe?: boolean) {
   if (unSubscribe)
     store.listeners = store.listeners.filter(
       (storeListener: StoreListener) => storeListener !== listener
@@ -56,4 +59,4 @@ function useStoreEffect(listener: StoreListener, unSubscribe?: boolean) {
   store.listeners.push(listener);
 }
 
-export { deleteToast, upsertToast, useStoreEffect };
+export { deleteToast, upsertToast, useStore };

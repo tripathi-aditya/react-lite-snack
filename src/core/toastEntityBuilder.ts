@@ -1,11 +1,12 @@
-// using builder pattern because toast object is created multi-step
-// 1. we create using helper buildToast
+// using builder pattern because toast object is created in multi-step
+// 1. we create toast object
 // 2. then we append container related details to it
 
 import { ToastEntity, ToastEntityFactory } from "../types";
 import {
   DEFAULT_TOAST_DISPLAY_TIME,
   DEFAULT_TOAST_POSITION,
+  DEFAULT_VARIANT,
 } from "./constants";
 
 const ToastFactory: ToastEntityFactory = {
@@ -15,15 +16,11 @@ const ToastFactory: ToastEntityFactory = {
     return this;
   },
   setId: function () {
-    // check if the id exists first
+    // check if the id exists first, given by user
     if (this.id) {
       return this;
     }
-    // while(hasId){
-    //   id = Math.random()
-    // }
-    // create a async generator function which checks for id and generates new
-    this.id = Math.random();
+    this.id = `${Date.now()}-${Math.floor(1000 + Math.random() * 9000)}`;
     return this;
   },
   setMessage: function (fractionalEntity) {
@@ -32,8 +29,12 @@ const ToastFactory: ToastEntityFactory = {
     ).toLowerCase();
     return this;
   },
-  setOnLoad: function (options) {
-    this.onLoadCallback = options.onLoadCB as ToastEntity["onLoadCB"];
+  setOnCloseCB: function (fractionalEntity) {
+    this.onCloseCB = fractionalEntity.onCloseCB as ToastEntity["onCloseCB"];
+    return this;
+  },
+  setOnLoadCB: function (fractionalEntity) {
+    this.onLoadCallback = fractionalEntity.onLoadCB as ToastEntity["onLoadCB"];
     return this;
   },
   setPosition: function (fractionalEntity) {
@@ -41,39 +42,43 @@ const ToastFactory: ToastEntityFactory = {
     return this;
   },
   setVariant: function (fractionalEntity) {
-    const variant = fractionalEntity.variant ?? "info";
+    const variant = fractionalEntity.variant ?? DEFAULT_VARIANT;
     this.variant = variant as ToastEntity["variant"];
     return this;
   },
-  complete: function (fractionalEntity) {
+  commit: function (fractionalEntity) {
     return { ...this, ...fractionalEntity };
+  },
+  dispatch: function (fractionalEntity) {
+    return Object.seal(fractionalEntity) as ToastEntity;
   },
 };
 
 export function buildToastEntityForProps(
   fractionalToast: Partial<ToastEntity>
 ): Partial<ToastEntity> {
-  let toastProps = Object.create(ToastFactory);
-  return (
-    toastProps
-      // better to pass exact values
-      .setMessage(fractionalToast)
-      .setOnLoad(fractionalToast)
-      .setVariant(fractionalToast)
-      .complete(fractionalToast)
-  );
+  const toastEntity = Object.create(ToastFactory);
+  return toastEntity
+    .setMessage(fractionalToast)
+    .setVariant(fractionalToast)
+    .commit(fractionalToast);
 }
 
 export function buildToastEntityForMeta(
   fractionalToast: Partial<ToastEntity>
 ): Partial<ToastEntity> {
-  let toastMetaData = Object.create(ToastFactory);
-  // add default toast container
-  return toastMetaData
+  const toastEntity = Object.create(ToastFactory);
+
+  return toastEntity
     .setId()
+    .setOnCloseCB(fractionalToast)
+    .setOnLoadCB(fractionalToast)
     .setDisplayTime(fractionalToast)
-    .setPosition()
-    .complete(fractionalToast);
+    .setPosition(fractionalToast)
+    .commit(fractionalToast);
 }
 
-// TODO: A function to build toast for both Meta and Props
+export function dispatchToast(toast: ToastEntity): ToastEntity {
+  const toastEntity = Object.create(ToastFactory);
+  return toastEntity.dispatch(toast);
+}

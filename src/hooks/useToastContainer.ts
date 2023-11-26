@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useState } from "react";
-import { useStoreEffect } from "../core/store";
+import { useStore } from "../core/store";
 import {
   POSITIONS,
   StoreActions,
@@ -20,11 +20,13 @@ export const useToastContainer = () => {
     const { data: toastEntity, type } = action;
     switch (type) {
       case TOAST_OPERATIONS.UPSERT:
+        toastEntity.onLoadCB && toastEntity.onLoadCB();
         return new Map(state).set(toastEntity?.position, [
           ...(state.get(toastEntity?.position) || []),
           toastEntity,
         ]);
       case TOAST_OPERATIONS.DELETE:
+        toastEntity.onCloseCB && toastEntity.onCloseCB();
         return new Map(state).set(
           toastEntity?.position,
           state
@@ -49,8 +51,8 @@ export const useToastContainer = () => {
   };
 
   useEffect(() => {
-    useStoreEffect(onStoreSubscribe);
-    return () => useStoreEffect(onStoreSubscribe, true);
+    useStore(onStoreSubscribe);
+    return () => useStore(onStoreSubscribe, true);
   }, []);
 
   return {
