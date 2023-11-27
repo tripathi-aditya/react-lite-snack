@@ -7,9 +7,9 @@ import {
 
 import { upsertToast } from "./store";
 
-function toaster(options: Partial<ToastEntity>) {
+function toaster(options: Partial<ToastEntity>): void {
   // create toast entity
-  let props = buildToastEntityForProps(options);
+  const props = buildToastEntityForProps(options);
   const propsWithMeta = buildToastEntityForMeta(props);
   upsertToast(dispatchToast(propsWithMeta as ToastEntity));
 }

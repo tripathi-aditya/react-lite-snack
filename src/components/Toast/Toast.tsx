@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { ToastProps } from "../../types";
-import "./toast.css";
+import "./toast.scss";
 
 const Toast = memo(({ variant, message, onCloseClick }: ToastProps) => {
   return (
@@ -15,5 +15,7 @@ const Toast = memo(({ variant, message, onCloseClick }: ToastProps) => {
     </div>
   );
 });
+
+Toast.displayName = "Toast";
 
 export default Toast;

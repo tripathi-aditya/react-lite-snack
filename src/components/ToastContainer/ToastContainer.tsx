@@ -3,10 +3,10 @@ import { useToastContainer } from "../../hooks/useToastContainer";
 import { POSITIONS } from "../..";
 import Toast from "../Toast/Toast";
 
-const ToastContainers = () => {
+const ToastContainers = (): React.ReactElement => {
   const { toastContainers } = useToastContainer();
 
-  const ToastContainerTop = () => {
+  const ToastContainerTop = (): React.ReactElement => {
     return (
       <div className="container container__top">
         {toastContainers.get(POSITIONS.TOP)?.map((toast) => (
@@ -16,7 +16,7 @@ const ToastContainers = () => {
     );
   };
 
-  const ToastContainerRight = () => {
+  const ToastContainerRight = (): React.ReactElement => {
     return (
       <div className="container container__right">
         {toastContainers.get(POSITIONS.RIGHT)?.map((toast) => (
@@ -26,7 +26,7 @@ const ToastContainers = () => {
     );
   };
 
-  const ToastContainerBottom = () => {
+  const ToastContainerBottom = (): React.ReactElement => {
     return (
       <div className="container container__bottom">
         {toastContainers.get(POSITIONS.BOTTOM)?.map((toast) => (
@@ -36,7 +36,7 @@ const ToastContainers = () => {
     );
   };
 
-  const ToastContainerLeft = () => {
+  const ToastContainerLeft = (): React.ReactElement => {
     return (
       <div className="container container__left">
         {toastContainers.get(POSITIONS.LEFT)?.map((toast) => (
