@@ -31,30 +31,34 @@ const Store: StoreEntity = {
   },
 };
 
-const store = Object.create(Store);
+const store: StoreEntity = Object.create(Store);
 
-function upsertToast(toast: ToastEntity) {
-  const toastEntityWithClose = {
+function upsertToast(toast: ToastEntity): void {
+  const toastEntityWithClose: ToastEntity = {
     ...toast,
-    deleteTimeout: setTimeout(
-      () => store.update({ data: toast, type: "DELETE" }),
-      toast.displayTime
-    ),
-    onCloseClick: () => deleteToast(toast),
-  } as ToastEntity;
+    deleteTimeout: setTimeout(function () {
+      store.update({ data: toast, type: "DELETE" });
+    }, toast.displayTime),
+    onCloseClick: function () {
+      deleteToast(toast);
+    },
+  };
   store.update({ data: toastEntityWithClose, type: "UPSERT" });
 }
 
-function deleteToast(toast: ToastEntity) {
+function deleteToast(toast: ToastEntity): void {
   clearTimeout(toast.deleteTimeout);
   store.update({ data: toast, type: "DELETE" });
 }
 
-function useStore(listener: StoreListener, unSubscribe?: boolean) {
-  if (unSubscribe)
+function useStore(listener: StoreListener, unSubscribe?: boolean): void {
+  if (unSubscribe) {
     store.listeners = store.listeners.filter(
       (storeListener: StoreListener) => storeListener !== listener
     );
+    return;
+  }
+
   // could return a ref to be used as as toast container
   store.listeners.push(listener);
 }
