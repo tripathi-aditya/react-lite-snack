@@ -37,18 +37,18 @@ function upsertToast(toast: ToastEntity): void {
   const toastEntityWithClose: ToastEntity = {
     ...toast,
     deleteTimeout: setTimeout(function () {
-      store.update({ data: toast, type: "DELETE" });
+      store.update({ data: toast, type: TOAST_OPERATIONS.DELETE });
     }, toast.displayTime),
     onCloseClick: function () {
       deleteToast(toast);
     },
   };
-  store.update({ data: toastEntityWithClose, type: "UPSERT" });
+  store.update({ data: toastEntityWithClose, type: TOAST_OPERATIONS.UPSERT });
 }
 
 function deleteToast(toast: ToastEntity): void {
   clearTimeout(toast.deleteTimeout);
-  store.update({ data: toast, type: "DELETE" });
+  store.update({ data: toast, type: TOAST_OPERATIONS.DELETE });
 }
 
 function useStore(listener: StoreListener, unSubscribe?: boolean): void {
