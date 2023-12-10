@@ -57,8 +57,8 @@ const ToastFactory: ToastEntityFactory = {
 export function buildToastEntityForProps(
   fractionalToast: Partial<ToastEntity>
 ): Partial<ToastEntity> {
-  const toastEntity = Object.create(ToastFactory);
-  return toastEntity
+  const factoryInstance = Object.create(ToastFactory);
+  return factoryInstance
     .setMessage(fractionalToast)
     .setVariant(fractionalToast)
     .commit(fractionalToast);
@@ -67,9 +67,9 @@ export function buildToastEntityForProps(
 export function buildToastEntityForMeta(
   fractionalToast: Partial<ToastEntity>
 ): Partial<ToastEntity> {
-  const toastEntity = Object.create(ToastFactory);
+  const factoryInstance = Object.create(ToastFactory);
 
-  return toastEntity
+  return factoryInstance
     .setId()
     .setOnCloseCB(fractionalToast)
     .setOnLoadCB(fractionalToast)
@@ -79,6 +79,6 @@ export function buildToastEntityForMeta(
 }
 
 export function dispatchToast(toast: ToastEntity): ToastEntity {
-  const toastEntity = Object.create(ToastFactory);
-  return toastEntity.dispatch(toast);
+  const factoryInstance = Object.create(ToastFactory);
+  return factoryInstance.dispatch(toast);
 }
