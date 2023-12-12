@@ -31,36 +31,39 @@ const Store: StoreEntity = {
   },
 };
 
-const store: StoreEntity = Object.create(Store);
+const storeInstance: StoreEntity = Object.create(Store);
 
 function upsertToast(toast: ToastEntity): void {
   const toastEntityWithClose: ToastEntity = {
     ...toast,
     deleteTimeout: setTimeout(function () {
-      store.update({ data: toast, type: TOAST_OPERATIONS.DELETE });
+      storeInstance.update({ data: toast, type: TOAST_OPERATIONS.DELETE });
     }, toast.displayTime),
     onCloseClick: function () {
       deleteToast(toast);
     },
   };
-  store.update({ data: toastEntityWithClose, type: TOAST_OPERATIONS.UPSERT });
+  storeInstance.update({
+    data: toastEntityWithClose,
+    type: TOAST_OPERATIONS.UPSERT,
+  });
 }
 
 function deleteToast(toast: ToastEntity): void {
   clearTimeout(toast.deleteTimeout);
-  store.update({ data: toast, type: TOAST_OPERATIONS.DELETE });
+  storeInstance.update({ data: toast, type: TOAST_OPERATIONS.DELETE });
 }
 
 function useStore(listener: StoreListener, unSubscribe?: boolean): void {
   if (unSubscribe) {
-    store.listeners = store.listeners.filter(
+    storeInstance.listeners = storeInstance.listeners.filter(
       (storeListener: StoreListener) => storeListener !== listener
     );
     return;
   }
 
   // could return a ref to be used as as toast container
-  store.listeners.push(listener);
+  storeInstance.listeners.push(listener);
 }
 
 export { deleteToast, upsertToast, useStore };
