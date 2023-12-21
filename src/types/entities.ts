@@ -6,11 +6,10 @@ import {
   ToastMetaData,
 } from "./entitiesAttributes";
 
-// possible that all entities are namesapces?
 type StoreEntity = {
   state: StoreState;
   listeners: StoreListener[];
-  update: (actions: StoreActions) => void; //should this return updated store?
+  update: (actions: StoreActions) => void;
 };
 
 type ToastEntity = ToastProps & ToastMetaData;
